@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+
+  web:
+    build: .
+    command: npm run start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - basedatos
+
+  basedatos:
+    image: mysql:5.7.22
+    environment:
+      MYSQL_DATABASE: 'abarrotes'
+      MYSQL_USER: 'kaike'
+      MYSQL_PASSWORD: 'kaike'
+      MYSQL_ROOT_PASSWORD: 'kaike'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./script-sql/:/script-sql/
+    command: --init-file="/script-sql/abarrotes.sql"
